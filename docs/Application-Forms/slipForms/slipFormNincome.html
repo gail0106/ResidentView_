@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barangay Information Slip</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary-dark': '#2B3209',
+            'primary-medium': '#4B5320',
+            'primary-light': '#6A7337',
+            'accent-green': '#8A9A5B',
+            'accent-gold': '#BD8F42',
+            'accent-light-gold': '#D0B564',
+            'cream': '#FFFFF0',
+            'dark-blue': '#0B1215',
+          },
+          fontFamily: {
+            'inter': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          animation: {
+            'float': 'float 20s ease-in-out infinite',
+            'pulse-custom': 'pulse-custom 2s ease-in-out infinite',
+            'slide-down': 'slide-down 1s ease-out',
+            'slide-up': 'slide-up 1s ease-out 0.3s both',
+            'fade-in': 'fade-in 1s ease-out 0.6s both',
+            'fade-in-delayed': 'fade-in 1s ease-out 1s both',
+            'gradientShift': 'gradientShift 15s ease infinite',
+          },
+          keyframes: {
+            'float': {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-20px) rotate(2deg)' },
+            },
+            'pulse-custom': {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.05)' },
+            },
+            'slide-down': {
+              'from': { opacity: '0', transform: 'translateY(-30px)' },
+              'to': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'slide-up': {
+              'from': { opacity: '0', transform: 'translateY(30px)' },
+              'to': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'fade-in': {
+              'from': { opacity: '0', transform: 'translateY(40px)' },
+              'to': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'gradientShift': {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
+          },
+          backdropBlur: {
+            'xs': '2px',
+          },
+          screens: {
+            'xs': '475px',
+            '3xl': '1920px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-image: url('_MG_0668.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(43, 50, 9, 0.8) 0%, rgba(75, 83, 32, 0.7) 25%, rgba(106, 115, 55, 0.6) 50%, rgba(138, 154, 91, 0.7) 75%, rgba(75, 83, 32, 0.8) 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .card-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-shimmer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+    
+    .card-shimmer:hover::before {
+      left: 100%;
+    }
+    
+    .heading-font {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .info-field {
+      border-bottom: 2px dotted #8A9A5B;
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Mobile Optimizations */
+    @media (max-width: 640px) {
+      body {
+        background-attachment: scroll;
+      }
+      
+      .card-shimmer:hover::before {
+        display: none;
+      }
+      
+      .heading-font {
+        letter-spacing: 0.02em;
+      }
+    }
+    
+    /* Tablet Optimizations */
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .heading-font {
+        letter-spacing: 0.03em;
+      }
+    }
+    
+    /* Large Screen Optimizations */
+    @media (min-width: 1920px) {
+      body {
+        font-size: 18px;
+      }
+    }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      
+      body::before {
+        display: none !important;
+      }
+      
+      .card-shimmer::before {
+        display: none !important;
+      }
+      
+      .print-hide {
+        display: none !important;
+      }
+      
+      .slip-container {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        box-shadow: none !important;
+        border: 2px solid #2B3209 !important;
+        background: white !important;
+        border-radius: 0 !important;
+      }
+      
+      * {
+        animation: none !important;
+        transition: none !important;
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+      
+      .text-accent-gold {
+        color: #BD8F42 !important;
+      }
+      
+      .text-primary-dark {
+        color: #2B3209 !important;
+      }
+      
+      .text-primary-medium {
+        color: #4B5320 !important;
+      }
+      
+      .bg-primary-dark {
+        background-color: #2B3209 !important;
+      }
+      
+      .text-cream {
+        color: #FFFFF0 !important;
+      }
+
+      .info-field {
+        border-bottom: 2px dotted #8A9A5B !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen py-4 sm:py-6 lg:py-10 px-3 sm:px-4 lg:px-6 text-cream">
+  <div class="max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto bg-cream/95 backdrop-blur-sm text-primary-dark p-4 sm:p-6 lg:p-10 rounded-xl lg:rounded-2xl shadow-2xl border border-accent-green/20 card-shimmer animate-slide-down slip-container">
+    
+    <!-- Header -->
+    <div class="text-center mb-6 sm:mb-8 lg:mb-10 animate-fade-in border-b-2 border-accent-gold pb-4">
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold heading-font text-accent-gold animate-pulse-custom">BARANGAY INFORMATION SLIP</h1>
+      <p class="text-primary-medium mt-2 font-medium text-sm sm:text-base">Santa Rosa City, Laguna</p>
+      <p class="text-primary-medium text-xs sm:text-sm mt-1">Please present this slip to the Barangay Office</p>
+    </div>
+
+    <!-- Document Reference -->
+    <div class="mb-6 sm:mb-8 bg-accent-green/10 p-3 sm:p-4 rounded-lg border border-accent-green/30 animate-fade-in">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+        <p class="text-sm sm:text-base"><strong class="text-primary-dark">Reference Number:</strong> <span class="text-accent-gold font-semibold">BIS-2025-9832113</span></p>
+        <p class="text-sm sm:text-base"><strong class="text-primary-dark">Date Issued:</strong> <span class="text-primary-medium">June 23, 2025</span></p>
+      </div>
+    </div>
+
+    <!-- Personal Information Section -->
+    <div class="animate-slide-up mb-6 sm:mb-8">
+      <h2 class="text-lg sm:text-xl font-bold text-primary-dark mb-4 border-b border-accent-green/50 pb-2">PERSONAL INFORMATION</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Full Name:</label>
+            <div class="info-field text-primary-medium font-medium">Juan Miguel Dela Cruz</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Age:</label>
+            <div class="info-field text-primary-medium font-medium">28 years old</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Birth Date:</label>
+            <div class="info-field text-primary-medium font-medium">March 15, 1997</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Civil Status:</label>
+            <div class="info-field text-primary-medium font-medium">Single</div>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Phone Number:</label>
+            <div class="info-field text-primary-medium font-medium">+63 912 345 6789</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Email Address:</label>
+            <div class="info-field text-primary-medium font-medium">juan.delacruz@email.com</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Gender:</label>
+            <div class="info-field text-primary-medium font-medium">Male</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Occupation:</label>
+            <div class="info-field text-primary-medium font-medium">Unemployed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address Information Section -->
+    <div class="animate-fade-in mb-6 sm:mb-8">
+      <h2 class="text-lg sm:text-xl font-bold text-primary-dark mb-4 border-b border-accent-green/50 pb-2">ADDRESS INFORMATION</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-semibold text-primary-dark mb-1">Complete Address:</label>
+          <div class="info-field text-primary-medium font-medium">456 Secondary Street, Barangay Market Area, Santa Rosa City, Laguna</div>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Barangay:</label>
+            <div class="info-field text-primary-medium font-medium">Market Area</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">City/Municipality:</label>
+            <div class="info-field text-primary-medium font-medium">Santa Rosa City</div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">Province:</label>
+            <div class="info-field text-primary-medium font-medium">Laguna</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-primary-dark mb-1">ZIP Code:</label>
+            <div class="info-field text-primary-medium font-medium">4026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Purpose Section -->
+    <div class="animate-fade-in-delayed mb-6 sm:mb-8">
+      <h2 class="text-lg sm:text-xl font-bold text-primary-dark mb-4 border-b border-accent-green/50 pb-2">PURPOSE OF REQUEST</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-semibold text-primary-dark mb-1">Document/Service Requested:</label>
+          <div class="info-field text-primary-medium font-medium">No Income Certificate</div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-semibold text-primary-dark mb-1">Purpose:</label>
+          <div class="info-field text-primary-medium font-medium">Financial Assistance</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Official Use Section -->
+    <div class="bg-accent-gold/10 p-4 rounded-lg border border-accent-gold/30 mb-6 animate-fade-in-delayed">
+      <h3 class="text-base sm:text-lg font-bold text-primary-dark mb-3">FOR BARANGAY OFFICE USE ONLY</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-primary-dark mb-1">Received By:</label>
+          <div class="info-field h-8"></div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-primary-dark mb-1">Date Received:</label>
+          <div class="info-field h-8"></div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-primary-dark mb-1">Processed By:</label>
+          <div class="info-field h-8"></div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-primary-dark mb-1">Date Processed:</label>
+          <div class="info-field h-8"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center animate-fade-in-delayed border-t border-accent-green/30 pt-4">
+      <p class="text-xs sm:text-sm text-primary-medium font-medium">This information slip is valid for 30 days from date of issuance.</p>
+      <p class="text-xs text-primary-medium mt-1">Barangay Hall Market Area • Tel: (049) 123-4567 • Email: marketarea.brgy@santarosa.gov.ph</p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 animate-fade-in-delayed print-hide">
+      <button onclick="window.print()" class="w-full sm:w-auto bg-accent-gold hover:bg-accent-light-gold text-primary-dark px-6 sm:px-8 py-3 rounded-lg shadow-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl card-shimmer text-sm sm:text-base">
+        Print Information Slip
+      </button>
+      <a href="Bail.html"> 
+        <button onclick="window.location.href='index.html'" class="w-full sm:w-auto bg-primary-dark hover:bg-primary-medium text-cream px-6 sm:px-8 py-3 rounded-lg shadow-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl card-shimmer text-sm sm:text-base">
+          Exit
+        </button>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -17,6 +17,8 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="script.js"></script>
+
+
     
 </head>
 
@@ -448,7 +450,7 @@
     <div class="h-16"></div>
     <div class="h-16"></div>
 
-<div id="main">
+<div id="main" >
    <main class="max-w-7xl mx-auto px-4 pt-32 pb-10">
         <div class="">
 
@@ -462,8 +464,43 @@
         </div>
 
        
-<div class="animate-fadeInUp px-4" x-data="{ openPasswordModal: false, open2FAModal: false, openRecentModal: false, openRecoveryModal: false}">
+<div 
+  class="animate-fadeInUp px-4" 
+  x-data="{
+    openPasswordModal: false,
+    open2FAModal: false,
+    openRecentModal: false,
+    openRecoveryModal: false,
+
+    // New reactive variables
+    confirmPassword: '',
+    showToast: false,
+    toastMessage: '',
+
+    // Computed property
+    get passwordsMatch() {
+      return this.confirmPassword === this.$refs.newPassword?.value;
+    },
+
+    // Method to show toast
+    showSuccessToast(message) {
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+      }, 4000);
+    }
+  }"
+>
+
     <!--CARDS-->
+
+      <button 
+    @click="showSuccessToast('This is a toast!')" 
+    class="bg-blue-600 text-white px-4 py-2 rounded-md mt-4"
+  >
+    Test Toast
+  </button>
       <!-- Change Password Card -->
     <div
         class="group flex items-center p-3 md:p-5 rounded-4xl border border-gray-100 hover:border-lime-200 bg-white hover:bg-lime-50 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
@@ -484,11 +521,12 @@
           </p>
         </div>
 
+
+
         <!-- Optional arrow -->
         <i class="ml-auto text-gray-400 group-hover:text-lime-600 transition-colors duration-300 ri-arrow-right-s-line"></i>
     </div>    
-    
-      
+
 
     <!-- 2FA Card -->
     <div
@@ -582,7 +620,13 @@
 
           <h3 class="text-2xl font-semibold text-[#2B3209] mb-4">Change Password</h3>
 
-          <form class="space-y-4">
+          <form   class="space-y-4"
+  @submit.prevent="
+    if (passwordsMatch) {
+      showSuccessToast('Changes saved!');
+      openPasswordModal = false;
+    }
+  ">
             <div>
               <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
               <input type="password" id="currentPassword" name="currentPassword" class="w-full mt-1 p-2 border rounded-md" required>
@@ -593,21 +637,41 @@
               <input type="password" id="newPassword" name="newPassword" x-ref="newPassword" class="w-full mt-1 p-2 border rounded-md" required>
             </div>
 
-            <div>
-              <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-              <input type="password" id="confirmPassword" name="confirmPassword" x-ref="confirmPassword" class="w-full mt-1 p-2 border rounded-md" required>
-              <p class="text-xs text-gray-400 font-light mt-1">This should match your new password.</p>
-            </div>
+      <div>
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" class="w-full mt-1 p-2 border rounded-md" x-model="confirmPassword" required>
+        <p class="text-xs mt-1" :class="passwordsMatch ? 'text-green-600' : 'text-red-500'">
+          <template x-if="confirmPassword.length > 0">
+            <span x-text="passwordsMatch ? 'Passwords match!' : 'This should match your new password.'"></span>
+          </template>
+        </p>
+      </div>
 
             <button 
               type="submit" 
-              class="w-full bg-[#8A9A5B] hover:bg-[#728348] text-white py-2 rounded-md transition"
+              :disabled="!passwordsMatch"
+        class="w-full bg-[#8A9A5B] hover:bg-[#728348] text-white py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Update Password
             </button>
           </form>
         </div>
+   
     </div>
+
+              <!-- Toast -->
+  <div 
+  x-show="showToast" 
+  x-transition:enter="transform transition ease-out duration-500"
+  x-transition:enter-start="translate-x-full opacity-0"
+  x-transition:enter-end="translate-x-0 opacity-100"
+  x-transition:leave="transform transition ease-in duration-500"
+  x-transition:leave-start="translate-x-0 opacity-100"
+  x-transition:leave-end="translate-x-full opacity-0"
+  x-cloak 
+  class="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-2 rounded shadow-lg"
+  x-text="toastMessage"
+  ></div>
 
     <!-- 2FA Modal -->
     <div 
@@ -630,6 +694,7 @@
           <p class="text-sm text-gray-600">
             This feature is coming soon. You’ll be able to set up app-based authentication for more secure logins.
           </p>
+
         </div>
       </div>
 
@@ -665,8 +730,8 @@
             <!-- Device Info -->
             <div class="flex-1">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-base font-semibold text-gray-800">Infinix Hot 11s</h3>
-                    <span class="text-xs text-gray-400">1 hour ago</span>
+                    <h3 class="text-base font-semibold text-gray-800">Dell Desktop </h3>
+                    <span class="text-xs text-gray-400">1h ago</span>
                 </div>
                 <p class="text-sm text-gray-500">Mamatid, Laguna</p>
                 <p class="text-xs text-gray-400 mt-1">Chrome · Windows 10</p>
@@ -685,7 +750,7 @@
             <div class="flex-1">
                 <div class="flex justify-between items-center">
                     <h3 class="text-base font-semibold text-gray-800">Infinix Hot 11s</h3>
-                    <span class="text-xs text-gray-400">1 hour ago</span>
+                    <span class="text-xs text-gray-400">3h ago</span>
                 </div>
                 <p class="text-sm text-gray-500">Mamatid, Laguna</p>
                 <p class="text-xs text-gray-400 mt-1">Chrome · Windows 10</p>
@@ -804,7 +869,7 @@
    
 
 </main>
-<footer id="footer" class="mt-auto bg-gradient-to-b from-[#f6f9fc] to-white border-t border-[#e6ebf1]">
+<footer id="footer" class="mt-1 bg-gradient-to-b from-[#f6f9fc] to-white border-t border-[#e6ebf1]">
         <!-- RemixIcon CSS (load once in your head) -->
         <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
