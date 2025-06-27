@@ -149,29 +149,36 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
+
+
   const logoutTrigger = document.getElementById('logoutTrigger');
+  const logoutTriggerMobile = document.getElementById('logoutTriggerMobile');
   const confirmModal = document.getElementById('confirmModal');
   const cancelLogout = document.getElementById('cancelLogout');
 
-  // Show the modal
-  logoutTrigger.addEventListener('click', function (e) {
+  // Function to show modal
+  function showConfirmModal(e) {
     e.preventDefault();
     confirmModal.classList.remove('hide');
-  });
+  }
 
-  // Cancel and hide the modal
-  cancelLogout.addEventListener('click', function () {
+  // Attach to both triggers
+  logoutTrigger?.addEventListener('click', showConfirmModal);
+  logoutTriggerMobile?.addEventListener('click', showConfirmModal);
+
+  // Cancel button logic
+  cancelLogout?.addEventListener('click', () => {
     confirmModal.classList.add('hide');
   });
 
-  // Optional: close when clicking outside the modal content
+  // Optional: hide modal when clicking outside
   window.addEventListener('click', function (e) {
     if (e.target === confirmModal) {
       confirmModal.classList.add('hide');
     }
   });
-});
+
+
 
 let lastScrollTop = 0;
   const header = document.getElementById('mainHeader');

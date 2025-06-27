@@ -16,7 +16,7 @@
         <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
     <!-- Tailwind CSS CDN (place this in <head>) -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -315,8 +315,8 @@ border-color: rgb(161, 252, 161);
                     aria-label="Refresh page">
                     <img src="../assets/seal.png" alt="Barangay Logo" class="navbar-logo w-10 md:w-14 h-auto">
                     <span
-                        class="head-title text-lg md:text-xl font-bold text-white transition-colors duration-300 ml-2 md:ml-3 leading-tight">
-                        Barangay<br>Market Area
+                        class="head-title items-center py-2 font-semibold text-base lg:text-md ml-3">
+                        Barangay Market Area
                     </span>
                 </a>
 
@@ -484,7 +484,7 @@ border-color: rgb(161, 252, 161);
         </header>
     </div>
 
-      <!-- Modal -->
+<!-- Modal -->
   <div id="confirmModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] hide">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center relative">
       <h2 class="text-lg font-semibold text-gray-800 mb-4">Are you sure you want to log out?</h2>
@@ -513,19 +513,18 @@ border-color: rgb(161, 252, 161);
         </header>
     </div>
 
+
     <!-- Mobile Menu Overlay (now at root level) -->
-    <div id="mobile-menu" class="fixed inset-0 bg-[#2B3209] backdrop-blur-sm z-40 hidden transition-opacity duration-300 pt-24 pb-6">
+    <div id="mobile-menu" class="fixed inset-0 bg-[#2B3209] backdrop-blur-sm z-40 hidden transition-opacity duration-300 mt-16 pb-6">
         <div class="container mx-auto px-5 h-full overflow-y-auto">
 
             <!-- Menu Items -->
-            <nav class="flex flex-col space-y-3 mt-3">
-
+            <nav class="flex flex-col space-y-3 ">
                 <a href="index.html"
-                    class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] py-1.5 flex items-center group border-b-2 border-[#D0B564] pb-2">
+                    class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] flex items-center group pt-20 ">
                     <i class="ri-home-4-line mr-3 text-[#D0B564] text-base"></i>
                     Home
                 </a>
-
 
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open"
@@ -559,17 +558,36 @@ border-color: rgb(161, 252, 161);
                     <i class="ri-contacts-line mr-3 text-[#D0B564] text-base"></i>
                     Contact Us
                 </a>
-  
-                
-                <a href="../index.html"
-                    class="mt-4 text-white text-base font-medium hover:text-[#D0B564] py-1.5 flex items-center group border-t border-white/20 pt-3">
-                    <i class="ri-user-line mr-3 text-[#D0B564] text-base"></i>
-                    User Login
-                </a>
 
- 
-                    
+
+
+            <div id="account" class="border-t border-white/20">
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open"
+                        class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] py-1.5 flex items-center justify-between w-full">
+                        <div class="mt-4 text-white text-base font-medium hover:text-[#D0B564] py-1.5 flex items-center group ">
+                            <i class="ri-user-line mr-3 text-[#D0B564] text-base"></i>
+                            Account
+                        </div>
+                        <i :class="{'rotate-180': open}"
+                            class="ri-arrow-down-s-line transform transition-transform duration-300 text-base"></i>
+                    </button>
+                    <div x-show="open" x-transition class="pl-9 pt-1 space-y-2">
+                        <a href="accSec.html" class="block text-white/80 hover:text-[#D0B564] text-sm items-center">
+                            <i class="ri-lock-line mr-2 text-xs"></i> Account Settings
+                        </a>
+                        <a href="#" id="logoutTriggerMobile"
+                            class="block text-white/80 hover:text-[#D0B564] text-sm items-center">
+                            <i class="ri-logout-box-r-line mr-2 text-xs"></i> Log out
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+                
             </nav>
+
+    
         </div>
     </div>
 
@@ -584,7 +602,7 @@ border-color: rgb(161, 252, 161);
 <div class="mb-3 px-4">
   <h2 class="text-3xl font-bold">
     <span class="text-green">
-      Account Security Settings
+      Account Settings
     </span>
   </h2>
 </div>
@@ -594,30 +612,38 @@ border-color: rgb(161, 252, 161);
 <div 
   class="animate-fadeInUp px-4" 
   x-data="{
-    openPasswordModal: false,
-    open2FAModal: false,
-    openRecentModal: false,
-    openRecoveryModal: false,
+  openPasswordModal: false,
+  open2FAModal: false,
+  openRecentModal: false,
+  openRecoveryModal: false,
+  alertsEnabled: true,
+  confirmPassword: '',
+  
+  get passwordsMatch() {
+    return this.confirmPassword === this.$refs.newPassword?.value;
+  },
 
-    // New reactive variables
-    confirmPassword: '',
-    showToast: false,
-    toastMessage: '',
+  showToast(message) {
+    const toast = document.getElementById('globalToast');
+    toast.textContent = message;
 
-    // Computed property
-    get passwordsMatch() {
-      return this.confirmPassword === this.$refs.newPassword?.value;
-    },
+    toast.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+    });
 
-    // Method to show toast
-    showSuccessToast(message) {
-      this.toastMessage = message;
-      this.showToast = true;
-      setTimeout(() => {
-        this.showToast = false;
-      }, 4000);
-    }
-  }"
+    setTimeout(() => {
+      toast.classList.remove('opacity-100');
+      toast.classList.add('opacity-0');
+    }, 3500);
+
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 4000);
+  }
+}"
+
 >
 
 
@@ -731,6 +757,7 @@ border-color: rgb(161, 252, 161);
         x-show="openPasswordModal" 
         x-cloak 
         x-transition 
+
         class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]"
       >
         <div 
@@ -743,14 +770,13 @@ border-color: rgb(161, 252, 161);
             >&times;</button>
 
           <h3 class="text-2xl font-semibold text-[#2B3209] mb-4">Change Password</h3>
-
-          <form   class="space-y-4"
-  @submit.prevent="
-    if (passwordsMatch) {
-      showSuccessToast('Changes saved!');
-      openPasswordModal = false;
-    }
-  ">
+        <form class="space-y-4"
+@submit.prevent="
+  if ($data.passwordsMatch) {
+    showToast('Changes saved!');
+    openPasswordModal = false;
+  }
+">
             <div>
               <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
               <input type="password" id="currentPassword" name="currentPassword" class="w-full mt-1 p-2 border rounded-md" required>
@@ -782,20 +808,6 @@ border-color: rgb(161, 252, 161);
         </div>
    
     </div>
-
-        <!-- Toast -->
-<div 
-  x-show="showToast" 
-  x-transition:enter="transform transition ease-out duration-500"
-  x-transition:enter-start="translate-y-[-20px] opacity-0"
-  x-transition:enter-end="translate-y-0 opacity-100"
-  x-transition:leave="transform transition ease-in duration-500"
-  x-transition:leave-start="translate-y-0 opacity-100"
-  x-transition:leave-end="translate-y-[-20px] opacity-0"
-  x-cloak 
-  class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[9999] bg-green-600 text-white px-4 py-4 rounded shadow-lg"
-  x-text="toastMessage"
-></div>
 
 
 
@@ -948,9 +960,9 @@ border-color: rgb(161, 252, 161);
 
     </div>
 
-<!-- Security Alerts Toggle -->
+    <!-- Security Alerts Toggle -->
 <div
-  x-data="{ alertsEnabled: true }"
+
   class="group flex items-center justify-between p-3 md:p-5 rounded-4xl border border-gray-100 hover:border-lime-200 bg-white hover:bg-lime-50 transition-all duration-300 hover:-translate-y-0.5 mt-4"
 >
   <!-- Left: Icon and Text -->
@@ -979,7 +991,8 @@ border-color: rgb(161, 252, 161);
     <!-- Switch wrapper (Track + Thumb) -->
     <div
       class="w-11 h-6 rounded-full transition-colors duration-300 relative"
-      :class="alertsEnabled ? 'bg-lime-500' : 'bg-gray-300'"
+       @click="alertsEnabled = !alertsEnabled"
+      :class="alertsEnabled ? 'bg-green-800': 'bg-gray-300'"
     >
       <!-- Thumb -->
       <div
@@ -989,8 +1002,9 @@ border-color: rgb(161, 252, 161);
     </div>
   </div>
 </div>
-</div>  
 </div>
+
+
 
 
   <div class="h-16"></div>
@@ -1012,9 +1026,11 @@ border-color: rgb(161, 252, 161);
                             <img src="../assets/seal.png" alt="Barangay Market Area Logo"
                                 class="h-32 w-auto pl-2 transition-transform duration-300 hover:scale-105">
                         </div>
-                        <p  class="text-[#4B5320] font-semibold text-md mt-2 flex items-center gap-1">
-                            Barangay Market Area
-                        </p>
+<p class="text-[#4B5320] font-semibold text-[0.7rem] mt-2 flex items-center gap-1">
+  Barangay Market Area
+</p>
+
+
                     </div>
                 </div>
 
@@ -1107,6 +1123,13 @@ border-color: rgb(161, 252, 161);
         </div>
       
     </footer>
-    
+
+    <!-- ✅ Toast Element -->
+<div id="globalToast" class="hidden opacity-0 fixed top-6 left-1/2 transform -translate-x-1/2 z-[99999] bg-green-600 text-white px-4 py-3 rounded-xl shadow-xl transition-opacity duration-300"></div>
+
+
+
 </body>
+
+
 </html>
