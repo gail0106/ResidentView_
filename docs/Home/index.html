@@ -19,6 +19,10 @@
 </head>
 
 <style>
+    .head-title:hover{
+    color: #D0B564;
+}
+
     /* Make all Tailwind text sizes a bit smaller */
     .text-xs {
         font-size: 0.9rem !important;
@@ -149,6 +153,20 @@
     #section4,
     #contact {
         transition: transform 0.5s ease;
+    }
+
+        body{
+
+      position:fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('../_MG_0668.jpg');
+      background-size: cover;
+      background-blend-mode: soft-light;
+      z-index: -2;
+
     }
 
     /* Overlay */
@@ -304,10 +322,10 @@
                                             <div
                                                 class="mr-3 p-1 bg-[#8A9A5B]/10 rounded-full group-hover/item:bg-[#8A9A5B]/20 transition-colors">
                                                 <i
-                                                    class="ri-user-line text-[#8A9A5B]/70 group-hover/item:text-[#8A9A5B] transition-transform group-hover/item:scale-110"></i>
+                                                    class="head-title ri-user-line text-[#8A9A5B]/70 group-hover/item:text-[#8A9A5B] transition-transform group-hover/item:scale-110"></i>
                                             </div>
                                             <span
-                                                class="transition-transform duration-200 group-hover/item:translate-x-1 text-sm md:text-base lg:text-md">
+                                                class=" transition-transform duration-200 group-hover/item:translate-x-1 text-sm md:text-base lg:text-md">
                                                 Personal Identification & Status Certificates
                                             </span>
                                         </a>
@@ -356,7 +374,7 @@
                             
                             <a href="#contact">
                                 
-                            <span  class="flex items-center py-2 font-semibold text-base lg:text-md text-[#D0B564] hover:text-white  transition-colors duration-300">
+                            <span  class="flex items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300">
                                             Contact Us
                             </span>
                             </a>
@@ -369,7 +387,7 @@
                             <a href="#"
                                 class="flex items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300"
                                 aria-expanded="false">
-                                <i class="ri-user-line text-[#FFFFF0] group-hover:text-[#D0B564] transition-colors"></i>
+                                <i class="ri-user-line text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300"></i>
                             </a>
                             <!-- Dropdown with triangle pointer -->
 <!-- Dropdown with triangle pointer -->
