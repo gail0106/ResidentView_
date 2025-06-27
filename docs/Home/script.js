@@ -148,3 +148,27 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(card);
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const logoutTrigger = document.getElementById('logoutTrigger');
+  const confirmModal = document.getElementById('confirmModal');
+  const cancelLogout = document.getElementById('cancelLogout');
+
+  // Show the modal
+  logoutTrigger.addEventListener('click', function (e) {
+    e.preventDefault();
+    confirmModal.classList.remove('hide');
+  });
+
+  // Cancel and hide the modal
+  cancelLogout.addEventListener('click', function () {
+    confirmModal.classList.add('hide');
+  });
+
+  // Optional: close when clicking outside the modal content
+  window.addEventListener('click', function (e) {
+    if (e.target === confirmModal) {
+      confirmModal.classList.add('hide');
+    }
+  });
+});

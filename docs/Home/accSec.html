@@ -241,6 +241,32 @@ border-color: rgb(161, 252, 161);
       z-index: -2;
       background-color:#313611;
     }
+
+    /* Force the dropdown to center directly under "Services" text */
+.services-dropdown {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Triangle pointer centered */
+.services-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border-top: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+  z-index: 50;
+}
+
+/* Hidden by default */
+.hide {
+  display: none;
+}
 </style>
 
 
@@ -302,14 +328,16 @@ border-color: rgb(161, 252, 161);
                                     :class="{ 'rotate-180': open }"></i>
                             </a>
                             <!-- Dropdown with triangle pointer -->
-                            <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                                x-transition:enter-start="opacity-0 translate-y-2"
-                                x-transition:enter-end="opacity-100 translate-y-0"
-                                x-transition:leave="transition ease-in duration-100"
-                                x-transition:leave-start="opacity-100 translate-y-0"
-                                x-transition:leave-end="opacity-0 translate-y-2"
-                                class="absolute left-1/2 top-full mt-0 min-w-[320px] w-max bg-white shadow-xl py-3 z-50 rounded-4xl border border-[#e2e8f0] transform -translate-x-1/2 origin-top before:absolute before:-top-[6px] before:left-1/2 before:-translate-x-1/2 before:w-3 before:h-3 before:bg-white before:border-t before:border-l before:border-[#e2e8f0] before:rotate-45 before:z-50"
-                                style="display: none;">
+<!-- Dropdown with triangle pointer -->
+<div x-show="open" x-transition:enter="transition ease-out duration-100"
+    x-transition:enter-start="opacity-0 translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-100"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-2"
+    class="services-dropdown absolute top-full mt-2 min-w-[320px] w-max bg-white shadow-xl py-3 z-50 rounded-4xl border border-[#e2e8f0] origin-top
+           "
+    style="display: none;">
                                 <div class="container px-4">
                                     <div class="grid grid-cols-1 gap-2">
                                         <a href="#section1"
@@ -364,28 +392,103 @@ border-color: rgb(161, 252, 161);
                                 </div>
                             </div>
                         </li>
-                        <!-- About Barangay -->
+
                         <li>
-                            <a href="about.html"
-                                class="flex items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300">
-                                About Barangay
+                            
+                            <a href="#contact">
+                                
+                            <span  class="flex items-center py-2 font-semibold text-base lg:text-md text-[#D0B564] hover:text-white  transition-colors duration-300">
+                                            Contact Us
+                            </span>
                             </a>
                         </li>
 
-                        <!--Account Security-->
-                        <li>
-                            <a href="accSec.html"
-                                class="nav-link-active items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300">
-                                Account Security
+
+
+
+                    <!-- User Icon Dropdown-->
+                        <li x-data="{ open: false }" class="relative" @mouseenter="open = true"
+                            @mouseleave="open = false">
+                            <a href="#"
+                                class="flex items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300"
+                                aria-expanded="false">
+                                <i class="ri-user-line text-[#FFFFF0] group-hover:text-[#D0B564] transition-colors"></i>
                             </a>
+                            <!-- Dropdown with triangle pointer -->
+<!-- Dropdown with triangle pointer -->
+<div x-show="open" x-transition:enter="transition ease-out duration-100"
+    x-transition:enter-start="opacity-0 translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-100"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-2"
+    class="services-dropdown absolute top-full mt-2 min-w-[320px] w-max bg-white shadow-xl py-3 z-50 rounded-4xl border border-[#e2e8f0] origin-top"
+    style="display: none;">
+                                <div class="container px-4">
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <a href="accSec.html"
+                                            class="flex items-center px-3 md:px-5 py-2 md:py-3 hover:bg-[#f0f7f3] hover:text-[#8A9A5B] transition-all duration-200 rounded-4xl group/item transform hover:scale-[1.02]">
+                                            <div
+                                                class="mr-3 p-1 bg-[#8A9A5B]/10 rounded-full group-hover/item:bg-[#8A9A5B]/20 transition-colors">
+                                                <i
+                                                    class="ri-lock-line text-[#8A9A5B]/70 group-hover/item:text-[#8A9A5B] transition-transform group-hover/item:scale-110"></i>
+                                            </div>
+                                            <span
+                                                class="transition-transform duration-200 text-gray-900 group-hover/item:translate-x-1 text-sm md:text-base lg:text-md">
+                                                Account Settings
+                                            </span>
+                                        </a>
+  <!-- Logout Trigger -->
+  <a href="../index.html" id="logoutTrigger"
+     class="flex items-center px-3 md:px-5 py-2 md:py-3 hover:bg-[#f0f7f3] hover:text-[#8A9A5B] transition-all duration-200 rounded-4xl group/item transform hover:scale-[1.02]">
+    <div class="mr-3 p-1 bg-[#8A9A5B]/10 rounded-full group-hover/item:bg-[#8A9A5B]/20 transition-colors">
+      <i class="ri-logout-box-r-line text-[#8A9A5B]/70 group-hover/item:text-[#8A9A5B] transition-transform group-hover/item:scale-110"></i>
+    </div>
+    <span style="color:red" class="transition-transform duration-200 group-hover/item:translate-x-1 text-sm md:text-base lg:text-md">
+      Log out
+    </span>
+  </a>
+
+
+
+
+</div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
                         </li>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+      <!-- Modal -->
+  <div id="confirmModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] hide">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center relative">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Are you sure you want to log out?</h2>
+      <div class="flex justify-center gap-4">
+        <button id="cancelLogout"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+          Cancel
+        </button>
+        <a href="../index.html" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+          Log out
+        </a>
+      </div>
+    </div>
+  </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
                     </ul>
 
-                    <a href="../index.html"
-                        class="flex items-center justify-center w-9 h-9 rounded-full border-2 border-[#BD8F42] hover:border-[#D0B564] hover:bg-[#8A9A5B]/20 transition-all duration-300 group"
-                        aria-label="User profile">
-                        <i class="ri-user-line text-[#FFFFF0] group-hover:text-[#D0B564] transition-colors"></i>
-                    </a>
+                    
                 </div>
             </nav>
         </header>
@@ -404,11 +507,6 @@ border-color: rgb(161, 252, 161);
                     Home
                 </a>
 
-                <a href="../Home/about.html"
-                    class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] py-1.5 flex items-center group">
-                    <i class="ri-information-line mr-3 text-[#D0B564] text-base"></i>
-                    About Barangay
-                </a>
 
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open"
@@ -442,24 +540,8 @@ border-color: rgb(161, 252, 161);
                     <i class="ri-contacts-line mr-3 text-[#D0B564] text-base"></i>
                     Contact Us
                 </a>
-
-                <a href="about.html"
-                    class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] py-1.5 flex items-center group">
-                    <i class="ri-information-line mr-3 text-[#D0B564] text-base"></i>
-                    About Barangay
-                </a>
-
-
+  
                 
-                
-                <!--Account Security-->
-                
-                <a href="accSec.html"
-                    class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] py-1.5 flex items-center group">
-                    <i class="ri-lock-line mr-3 text-[#D0B564] text-base"></i>
-                    Account Security
-                </a>
-
                 <a href="../index.html"
                     class="mt-4 text-white text-base font-medium hover:text-[#D0B564] py-1.5 flex items-center group border-t border-white/20 pt-3">
                     <i class="ri-user-line mr-3 text-[#D0B564] text-base"></i>

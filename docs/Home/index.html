@@ -13,6 +13,9 @@
 
     <title>Home Page</title>
     <link rel="icon" href="/assets/seal.png">
+
+        <!-- Tailwind CSS CDN (place this in <head>) -->
+
 </head>
 
 <style>
@@ -147,6 +150,94 @@
     #contact {
         transition: transform 0.5s ease;
     }
+
+    /* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Hidden by default */
+.hide {
+  display: none;
+}
+
+/* Modal box */
+.modal-box {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 24rem;
+  text-align: center;
+  position: relative;
+}
+
+/* Title */
+.modal-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937; /* Tailwind's gray-800 */
+  margin-bottom: 1rem;
+}
+
+/* Actions container */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Buttons */
+.modal-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+/* Cancel Button */
+.cancel-btn {
+  background-color: #e5e7eb; /* gray-200 */
+  color: #374151; /* gray-700 */
+}
+
+.cancel-btn:hover {
+  background-color: #d1d5db; /* gray-300 */
+}
+
+/* Logout Button */
+.logout-btn {
+  background-color: #ef4444; /* red-500 */
+  color: white;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626; /* red-600 */
+}
+
+
+
 </style>
 
 <body class="h-full flex flex-col overflow-x-hidden">
@@ -260,31 +351,91 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- About Barangay -->
-                        <li>
-                            <a href="about.html"
-                                class="flex items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300">
-                                About Barangay
-                            </a>
-                        </li>
-                        <!--Account Security-->
-                        <li>
-                            <a href="accSec.html"
-                                class="flex items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300">
-                                Account Security
-                            </a>
-                        </li>
-                    </ul>
 
-                    <a href="../index.html"
-                        class="flex items-center justify-center w-9 h-9 rounded-full border-2 border-[#BD8F42] hover:border-[#D0B564] hover:bg-[#8A9A5B]/20 transition-all duration-300 group"
-                        aria-label="User profile">
-                        <i class="ri-user-line text-[#FFFFF0] group-hover:text-[#D0B564] transition-colors"></i>
-                    </a>
+                                                <li>
+                            
+                            <a href="#contact">
+                                
+                            <span  class="flex items-center py-2 font-semibold text-base lg:text-md text-[#D0B564] hover:text-white  transition-colors duration-300">
+                                            Contact Us
+                            </span>
+                            </a>
+                        </li>
+
+
+<!-- User Icon Dropdown-->
+                        <li x-data="{ open: false }" class="relative" @mouseenter="open = true"
+                            @mouseleave="open = false">
+                            <a href="#"
+                                class="flex items-center py-2 font-semibold text-base lg:text-md text-[#FFFFF0] hover:text-[#D0B564] transition-colors duration-300"
+                                aria-expanded="false">
+                                <i class="ri-user-line text-[#FFFFF0] group-hover:text-[#D0B564] transition-colors"></i>
+                            </a>
+                            <!-- Dropdown with triangle pointer -->
+<!-- Dropdown with triangle pointer -->
+<div x-show="open" x-transition:enter="transition ease-out duration-100"
+    x-transition:enter-start="opacity-0 translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-100"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-2"
+                                class="absolute left-1/2 top-full mt-0 min-w-[320px] w-max bg-white shadow-xl py-3 z-50 rounded-4xl border border-[#e2e8f0] transform -translate-x-1/2 origin-top before:absolute before:-top-[6px] before:left-1/2 before:-translate-x-1/2 before:w-3 before:h-3 before:bg-white before:border-t before:border-l before:border-[#e2e8f0] before:rotate-45 before:z-50"
+    style="display: none;">
+                                <div class="container px-4">
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <a href="accSec.html"
+                                            class="flex items-center px-3 md:px-5 py-2 md:py-3 hover:bg-[#f0f7f3] hover:text-[#8A9A5B] transition-all duration-200 rounded-4xl group/item transform hover:scale-[1.02]">
+                                            <div
+                                                class="mr-3 p-1 bg-[#8A9A5B]/10 rounded-full group-hover/item:bg-[#8A9A5B]/20 transition-colors">
+                                                <i
+                                                    class="ri-lock-line text-[#8A9A5B]/70 group-hover/item:text-[#8A9A5B] transition-transform group-hover/item:scale-110"></i>
+                                            </div>
+                                            <span
+                                                class="transition-transform duration-200 text-gray-900 group-hover/item:translate-x-1 text-sm md:text-base lg:text-md">
+                                                Account Settings
+                                            </span>
+                                        </a>
+  <!-- Logout Trigger -->
+  <a href="#" id="logoutTrigger"
+     class="flex items-center px-3 md:px-5 py-2 md:py-3 hover:bg-[#f0f7f3] hover:text-[#8A9A5B] transition-all duration-200 rounded-4xl group/item transform hover:scale-[1.02]">
+    <div class="mr-3 p-1 bg-[#8A9A5B]/10 rounded-full group-hover/item:bg-[#8A9A5B]/20 transition-colors">
+      <i class="ri-logout-box-r-line text-[#8A9A5B]/70 group-hover/item:text-[#8A9A5B] transition-transform group-hover/item:scale-110"></i>
+    </div>
+    <span style="color:red" class="transition-transform duration-200 group-hover/item:translate-x-1 text-sm md:text-base lg:text-md">
+      Log out
+    </span>
+  </a>
+
+
+
+
+</div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                 </div>
             </nav>
         </header>
     </div>
+
+<!-- Modal -->
+<div id="confirmModal" class="modal-overlay hide">
+  <div class="modal-box">
+    <h2 class="modal-title">Are you sure you want to log out?</h2>
+    <div class="modal-actions">
+      <button id="cancelLogout" class="modal-btn cancel-btn">Cancel</button>
+      <a href="../index.html" class="modal-btn logout-btn">Log out</a>
+    </div>
+  </div>
+</div>
+
+    
+
+    
 
     <!-- Mobile Menu Overlay (now at root level) -->
     <div id="mobile-menu" class="fixed inset-0 bg-[#2B3209] backdrop-blur-sm z-40 hidden transition-opacity duration-300 pt-24 pb-6">
@@ -296,12 +447,6 @@
                     class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] py-1.5 flex items-center group border-b-2 border-[#D0B564] pb-2">
                     <i class="ri-home-4-line mr-3 text-[#D0B564] text-base"></i>
                     Home
-                </a>
-
-                <a href="about.html"
-                    class="text-white text-sm sm:text-lg font-medium hover:text-[#D0B564] py-1.5 flex items-center group">
-                    <i class="ri-information-line mr-3 text-[#D0B564] text-base"></i>
-                    About Barangay
                 </a>
 
                 <div x-data="{ open: false }" class="relative">
