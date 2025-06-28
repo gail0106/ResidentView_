@@ -179,20 +179,3 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-
-let lastScrollTop = 0;
-  const header = document.getElementById('mainHeader');
-
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (currentScroll > lastScrollTop) {
-      // Scrolling down
-      header.classList.add('hide');
-    } else {
-      // Scrolling up
-      header.classList.remove('hide');
-    }
-
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Prevent negative scroll
-});

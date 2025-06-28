@@ -108,21 +108,20 @@
     }
     /* Toast Styles */
 .toast {
-    margin-top: 110px;
-    margin-left: 66rem;
-    font-size: 10px;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    background-color: rgb(192, 59, 59);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  background-color: rgb(22, 163, 74); /* Tailwind's green-600 */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .toast.show {
-    transform: translateX(0); /* Slide into view */
+  transform: translateX(0); /* Slide into view */
 }
+
 
 .toast-enter {
     animation: slideInRight 0.3s ease-out;
@@ -623,26 +622,11 @@ border-color: rgb(161, 252, 161);
     return this.confirmPassword === this.$refs.newPassword?.value;
   },
 
-  showToast(message) {
-    const toast = document.getElementById('globalToast');
-    toast.textContent = message;
 
-    toast.classList.remove('hidden');
-    requestAnimationFrame(() => {
-      toast.classList.remove('opacity-0');
-      toast.classList.add('opacity-100');
-    });
 
-    setTimeout(() => {
-      toast.classList.remove('opacity-100');
-      toast.classList.add('opacity-0');
-    }, 3500);
 
-    setTimeout(() => {
-      toast.classList.add('hidden');
-    }, 4000);
-  }
 }"
+
 
 >
 
@@ -669,6 +653,7 @@ border-color: rgb(161, 252, 161);
           <p class="text-xs sm:text-sm md:text-base text-gray-500 mt-1">
             Update your current password to keep your account secure.
           </p>
+
         </div>
 
 
@@ -770,13 +755,8 @@ border-color: rgb(161, 252, 161);
             >&times;</button>
 
           <h3 class="text-2xl font-semibold text-[#2B3209] mb-4">Change Password</h3>
-        <form class="space-y-4"
-@submit.prevent="
-  if ($data.passwordsMatch) {
-    showToast('Changes saved!');
-    openPasswordModal = false;
-  }
-">
+        <form class="space-y-4">
+
             <div>
               <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
               <input type="password" id="currentPassword" name="currentPassword" class="w-full mt-1 p-2 border rounded-md" required>
@@ -797,13 +777,20 @@ border-color: rgb(161, 252, 161);
         </p>
       </div>
 
-            <button 
-              type="submit" 
-              :disabled="!passwordsMatch"
-        class="w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Update Password
-            </button>
+      
+        
+
+<button 
+  
+@click.prevent="openPasswordModal = false; $nextTick(() => showManualToast())"
+  :disabled="!passwordsMatch"
+
+  class="w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  Update Password
+</button>
+
+
           </form>
         </div>
    
@@ -946,12 +933,15 @@ border-color: rgb(161, 252, 161);
                     class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-lime-500 mb-4" />
             </div>
 
-            <button 
-              type="submit" 
-              class="w-full bg-[#8A9A5B] hover:bg-[#728348] text-white py-2 rounded-md transition"
-            >
-              Save Changes
-            </button>
+<button 
+@click.prevent="showToast(); openRecoveryModal = false"
+
+
+  class="w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  Save Changes
+</button>
+
 
             
 
@@ -1073,6 +1063,9 @@ border-color: rgb(161, 252, 161);
                         </ul>
                     </div>
 
+
+
+
                     <!-- Contact Info -->
                     <div id="contact">
                         <h3
@@ -1124,12 +1117,45 @@ border-color: rgb(161, 252, 161);
       
     </footer>
 
-    <!-- ✅ Toast Element -->
-<div id="globalToast" class="hidden opacity-0 fixed top-6 left-1/2 transform -translate-x-1/2 z-[99999] bg-green-600 text-white px-4 py-3 rounded-xl shadow-xl transition-opacity duration-300"></div>
+<div 
+  id="globalToast"
+  class="toast pointer-events-none opacity-0 fixed top-24 right-10 ml-3 z-[99999] text-md"
+>
+  Changes saved successfully!
+</div>
 
+
+
+<button 
+  onclick="showManualToast()" 
+  class="fixed bottom-10 right-10 z-[99999] bg-green-600 text-white px-4 py-2 rounded shadow-lg"
+>
+  Test Toast
+</button>
+
+
+
+
+<script>
+
+function showManualToast() {
+  const toast = document.getElementById('globalToast');
+  if (!toast) return;
+
+  toast.classList.remove('opacity-0', 'pointer-events-none');
+  toast.classList.add('opacity-100', 'show');
+
+  setTimeout(() => {
+    toast.classList.remove('show', 'opacity-100');
+    toast.classList.add('opacity-0', 'pointer-events-none');
+  }, 3000);
+}
+
+</script>
 
 
 </body>
+
 
 
 </html>
