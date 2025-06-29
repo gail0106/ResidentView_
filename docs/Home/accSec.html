@@ -194,7 +194,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
 .modal-box input{
   
   padding: 0.8rem 1rem;
@@ -204,7 +203,7 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   background: white;
-  color: var(--primary-dark);
+  color: black;
 
 }
 
@@ -615,6 +614,7 @@ border-color: rgb(161, 252, 161);
   open2FAModal: false,
   openRecentModal: false,
   openRecoveryModal: false,
+  openPersonalModal:false,
   alertsEnabled: true,
   confirmPassword: '',
   
@@ -704,6 +704,31 @@ border-color: rgb(161, 252, 161);
           </span>
           <p class="text-xs sm:text-sm md:text-base text-gray-500 mt-1">
             See when and where your account was last accessed.
+          </p>
+        </div>
+
+        <!-- Optional arrow -->
+        <i class="ml-auto text-gray-400 group-hover:text-lime-600 transition-colors duration-300 ri-arrow-right-s-line"></i>
+    
+    </div>
+
+        <!--Personal Info Card-->
+    <div
+        class="group flex items-center p-3 md:p-5 rounded-4xl border border-gray-100 hover:border-lime-200 bg-white hover:bg-lime-50 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer mt-4"
+        @click="openPersonalModal = true">
+
+        <!--Icon-->
+        <div class="bg-white p-2.5 rounded-4xl mr-4 shadow-sm group-hover:shadow-md transition-all duration-300">
+            <i class="ri-user-line ri-lg text-lime-600"></i>
+        </div>
+
+         <!-- Text -->
+        <div>
+          <span class="text-sm sm:text-base md:text-lg font-medium text-gray-900 group-hover:text-lime-700 transition-colors duration-300">
+            Personal Information
+          </span>
+          <p class="text-xs sm:text-sm md:text-base text-gray-500 mt-1">
+              Manage your basic details like your name and address.
           </p>
         </div>
 
@@ -890,65 +915,149 @@ border-color: rgb(161, 252, 161);
 
     </div>
 
+<!-- Personal Info Modal -->
+<div 
+  x-show="openPersonalModal" 
+  x-cloak 
+  x-transition 
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+>
+  <div 
+    @click.away="openPersonalModal = false" 
+    class="modal-box bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative"
+    x-data="{ editMode: false, name: 'Juan Dela Cruz', address: 'Brgy. Malinis, San Pedro', birthday: '1990-01-01', gender: 'Male' }"
+  >
+  >
+    <!-- Close Button -->
+    <button 
+      @click="openPersonalModal = false" 
+      class="absolute top-3 right-4 text-gray-600 text-2xl hover:text-red-600 transition"
+    >&times;</button>
+
+    <!-- Title -->
+    <h3 class="text-2xl font-semibold text-[#2B3209] mb-4">Personal Information</h3>
+
+    <!-- VIEW MODE -->
+    <div x-show="!editMode" class="space-y-3">
+      <p class="text-black"><strong>Name:</strong> <span x-text="name"></span></p>
+      <p class="text-black"><strong>Address:</strong> <span x-text="address"></span></p>
+      <p class="text-black"><strong>Birthday:</strong> <span x-text="birthday"></span></p>
+      <p class="text-black"><strong>Gender:</strong> <span x-text="gender"></span></p>
+
+      <button 
+        @click="editMode = true"
+        class="mt-4 w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition"
+      >Edit Info</button>
+    </div>
+
+    <!-- EDIT MODE -->
+    <form x-show="editMode" @submit.prevent="editMode = false; openPersonalModal = false; $nextTick(() => showManualToast())" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Full Name</label>
+        <input type="text" x-model="name" class="w-full mt-1 p-2 border rounded-md" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Address</label>
+        <input type="text" x-model="address" class="w-full mt-1 p-2 border rounded-md" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Birthday</label>
+        <input type="date" x-model="birthday" class="w-full mt-1 p-2 border rounded-md">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Gender</label>
+        <select x-model="gender" class="w-full mt-1 p-2 border rounded-md text-black">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="flex justify-between gap-2 pt-2">
+        <button 
+          type="submit"
+          class="w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition"
+        >Save Changes</button>
+        <button 
+          type="button"
+          @click="editMode = false"
+          class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-md transition"
+        >Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Acc Recovery Modal -->
+<div 
+  x-show="openRecoveryModal" 
+  x-cloak 
+  x-transition 
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+>
+  <div 
+    @click.away="openRecoveryModal = false" 
+    class="modal-box bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative"
+    x-data="{ editMode: false, email: 'yummyJuan@gmail.com', number: '09941495189'}"
+  >
+    <!-- Close Button -->
+    <button 
+      @click="openRecoveryModal = false" 
+      class="absolute top-3 right-4 text-gray-600 text-2xl hover:text-red-600 transition"
+    >&times;</button>
+
+    <!-- Title -->
+    <h3 class="text-2xl font-semibold text-[#2B3209] mb-4">Account Recovery Details</h3>
+
+    <!-- VIEW MODE -->
+    <div x-show="!editMode" class="space-y-3">
+      <p class="text-black"><strong>E-mail:</strong> <span x-text="email"></span></p>
+      <p class="text-black"><strong>Contact Number:</strong> <span x-text="number"></span></p>
+
+
+      <button 
+        @click="editMode = true"
+        class="mt-4 w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition"
+      >Edit Info</button>
+    </div>
+
+    <!-- EDIT MODE -->
+    <form x-show="editMode" @submit.prevent="editMode = false; openRecoveryModal = false; $nextTick(() => showManualToast())" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">E-mail</label>
+        <input type="text" x-model="email" class="w-full mt-1 p-2 border rounded-md" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+        <input type="text" x-model="number" class="w-full mt-1 p-2 border rounded-md" required>
+      </div>
+
+
+
+      <div class="flex justify-between gap-2 pt-2">
+        <button 
+          type="submit"
+          class="w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition"
+        >Save Changes</button>
+        <button 
+          type="button"
+          @click="editMode = false"
+          class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-md transition"
+        >Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
    
 
 
 
-<!--Acc Recovery Modal-->
-    <div
-        x-show="openRecoveryModal" 
-        x-cloak 
-        x-transition 
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]"
-        >
-
-        <div 
-          @click.away="openRecoveryModal = false" 
-          class="modal-box bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative"
-        >
-
-            <button 
-                @click="openRecoveryModal = false" 
-                class="relative top-3 right-4 text-gray-600 text-2xl hover:text-red-600 transition-colors"
-                >&times;
-            </button>
-
-            <div>
-                <h2 class="text-xl font-semibold text-gray-800">Account Recovery</h2>
-                <p class="text-sm text-gray-500 mt-1">Update your recovery email and phone number to keep your account secure.</p>
-            </div>
-
-            <!-- Email Update -->
-            <div class="mt-4">
-                <label for="recoveryEmail" class="block text-sm font-medium text-gray-700 mb-1">Recovery Email</label>
-                <input type="email" id="recoveryEmail" name="recoveryEmail" placeholder="you@example.com"
-                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-lime-500 mt-2" />
-            </div>
-
-              <!-- Phone Update -->
-            <div class="mt-4">
-                <label for="recoveryPhone" class="block text-sm font-medium text-gray-700 mb-2">Recovery Phone Number</label>
-                <input type="tel" id="recoveryPhone" name="recoveryPhone" placeholder="+63 912 345 6789"
-                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-lime-500 mb-4" />
-            </div>
-
-<button 
-@click.prevent="showToast(); openRecoveryModal = false"
-
-
-  class="w-full bg-green-700 hover:bg-[#728348] text-white py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
->
-  Save Changes
-</button>
-
-
-            
-
-        </div>
-
-
-    </div>
 
     <!-- Security Alerts Toggle -->
 <div
@@ -1119,10 +1228,12 @@ border-color: rgb(161, 252, 161);
 
 <div 
   id="globalToast"
-  class="toast pointer-events-none opacity-0 fixed top-24 right-10 ml-3 z-[99999] text-md"
+  class="toast pointer-events-none opacity-0 fixed top-24 right-10 ml-3 z-[99999] 
+         text-md px-8 py-5 rounded-xl bg-green-600 text-white shadow-lg"
 >
   Changes saved successfully!
 </div>
+
 
 
 
