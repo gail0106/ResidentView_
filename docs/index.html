@@ -116,6 +116,22 @@
         opacity: 1;
         transform: translateY(0);
       }
+    
+    }
+
+    #reset-link{
+      font-family: 'Inter', sans-serif;
+      background-color: #BD8F42;
+
+      &:hover{
+          background-color: #D0B564;
+      }
+
+      
+    }
+
+    #forgot-modal{
+      font-family: 'Inter', sans-serif;
     }
   </style>
 </head>
@@ -180,10 +196,38 @@
 
       <p class="mt-8 text-center text-sm text-black/80">
         Don't have an account?
-        <a href="Log-In_and_Reg/registration.html" class="register-link">Create Account</a>
+        <a href="Log-In_and_Reg/registration.html" class="register-link hover:underline">Create Account</a>
       </p>
+
+<!-- Forgot Password Link -->
+<p class="register-link mt-2 text-center text-sm">
+  <button id="openForgotModal" class="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500">
+    Forgot Password?
+  </button>
+</p>
+
+
+
     </div>
   </div>
+  <!-- Modal Overlay -->
+<div 
+  id="forgotModal" 
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center z-50 
+         opacity-0 scale-95 transition-all duration-300 ease-out"
+>
+
+  <!-- Modal Box -->
+  <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+    <button id="closeForgotModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+    <h2 class="text-lg font-semibold mb-4">Forgot Password</h2>
+    <p class="mb-4 text-sm text-gray-600">Enter your email to reset your password.</p>
+    <input type="email" placeholder="Email address" class="w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button id="reset-link" class="w-full text-white py-2 rounded">Send Reset Link</button>
+  </div>
+</div>
+
+
 
   <script>
     function handleLogin(event) {
@@ -196,6 +240,38 @@
         window.location.href = 'Home/index.html';
       }, 1500);
     }
+
+
+  const openBtn = document.getElementById('openForgotModal');
+  const closeBtn = document.getElementById('closeForgotModal');
+  const modal = document.getElementById('forgotModal');
+
+  openBtn.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+    // allow repaint before transitioning
+    requestAnimationFrame(() => {
+      modal.classList.remove('opacity-0', 'scale-95');
+      modal.classList.add('opacity-100', 'scale-100');
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove('opacity-100', 'scale-100');
+    modal.classList.add('opacity-0', 'scale-95');
+    
+    // Wait for animation to finish before hiding
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 300); // must match duration-300
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+
   </script>
 </body>
 </html>
